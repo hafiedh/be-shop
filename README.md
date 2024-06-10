@@ -1,0 +1,16 @@
+## Overview
+This is the backend service for an online store application. The service is built using Java Spring Boot / Go-lang and provides RESTful APIs for handling customers, products, shopping carts, and orders.
+
+## Features
+- Customer Registration and Login
+- View Products by Category
+- Add Products to Shopping Cart
+- View Shopping Cart
+- Delete Products from Shopping Cart
+- Checkout and Payment
+
+## Technologies
+- Programming Language: Go-lang
+- Database: PostgreSQL
+- Authentication: JWT
+
