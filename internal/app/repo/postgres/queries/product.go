@@ -13,6 +13,12 @@ const (
 		WHERE id = $1
 	`
 
+	QueryGetPriceByProductID = `
+		SELECT price
+		FROM products
+		WHERE id = $1
+	`
+
 	QueryGetProductByCategoryID = `
 		SELECT id, name, category_id, price, created_at, updated_at
 		FROM products

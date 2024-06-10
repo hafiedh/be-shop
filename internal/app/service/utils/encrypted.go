@@ -4,8 +4,11 @@ import (
 	"bytes"
 	"crypto/aes"
 	"crypto/cipher"
+	"crypto/rand"
 	"encoding/base64"
 	"errors"
+	"fmt"
+	"strings"
 )
 
 func EncryptAES256CBC(plaintext string, key string, iv string) (string, error) {
@@ -61,4 +64,18 @@ func PKCS5Unpadding(data []byte) ([]byte, error) {
 		return nil, errors.New("invalid padding")
 	}
 	return data[:len(data)-padding], nil
+}
+
+func GenerateOrderCode(prefixEmail string) string {
+	return fmt.Sprintf("ORDER-%s-%s", strings.ToUpper(prefixEmail), RandomString(10))
+}
+
+func RandomString(n int) string {
+	const letterBytes = "ABCDEFGHIJKLMNOPQRSTUVWXYZ0123456789"
+	b := make([]byte, n)
+	rand.Read(b)
+	for i := range b {
+		b[i] = letterBytes[b[i]%byte(len(letterBytes))]
+	}
+	return string(b)
 }

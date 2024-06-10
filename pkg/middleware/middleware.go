@@ -76,7 +76,7 @@ func (m *MiddleWareImpl) AuthUser(next echo.HandlerFunc) echo.HandlerFunc {
 		user, err := m.UserRepo.GetUserByID(ctx, userCtx.UserID)
 		if err != nil {
 			errResponse.Message = "Unauthorized"
-			errResponse.Error = err.Error()
+			errResponse.Error = "Unauthorized"
 			return c.JSON(http.StatusUnauthorized, errResponse)
 		}
 

@@ -105,6 +105,11 @@ func LoadApplicationRepository() error {
 	if err != nil {
 		return fmt.Errorf("NewCartRepo: %s", err.Error())
 	}
+
+	err = di.Provide(postgres.NewPaymentRepo)
+	if err != nil {
+		return fmt.Errorf("NewPaymentRepo: %s", err.Error())
+	}
 	return nil
 }
 
@@ -122,6 +127,11 @@ func LoadApplicationService() error {
 	err = di.Provide(service.NewCardSvc)
 	if err != nil {
 		return fmt.Errorf("NewCardSvc: %s", err.Error())
+	}
+
+	err = di.Provide(service.NewPaymentSvc)
+	if err != nil {
+		return fmt.Errorf("NewPaymentSvc: %s", err.Error())
 	}
 
 	return nil
@@ -145,6 +155,11 @@ func LoadApplicationController() error {
 	err = di.Provide(controller.NewCartCtrl)
 	if err != nil {
 		return fmt.Errorf("NewCartCtrl: %s", err.Error())
+	}
+
+	err = di.Provide(controller.NewPaymentCtrl)
+	if err != nil {
+		return fmt.Errorf("NewPaymentCtrl: %s", err.Error())
 	}
 
 	return nil

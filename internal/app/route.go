@@ -14,6 +14,7 @@ func setRoute(
 	authCtrl controller.AuthCtrl,
 	productCtrl controller.ProductCtrl,
 	cartCtrl controller.CartCtrl,
+	paymentCtrl controller.PaymentCtrl,
 	middleware middleware.MiddleWare,
 ) {
 	e.GET("/", func(c echo.Context) error {
@@ -46,6 +47,12 @@ func setRoute(
 		cart.DELETE("", cartCtrl.DeleteAllCart)
 		cart.PATCH("/:id", cartCtrl.UpdateCartQuantity)
 		cart.DELETE("/:id", cartCtrl.DeleteCart)
+	}
+
+	orders := base.Group("/orders")
+	{
+		orders.POST("/create", paymentCtrl.Checkout)
+		orders.POST("/simulation", paymentCtrl.SimulatePayment)
 	}
 
 }
