@@ -19,7 +19,7 @@ const (
 
 type (
 	UserCtxReq struct {
-		UserID   int64  `json:"user_id"`
+		UserID   int    `json:"user_id"`
 		Email    string `json:"email"`
 		Username string `json:"username"`
 	}
@@ -73,14 +73,18 @@ func (m *MiddleWareImpl) AuthUser(next echo.HandlerFunc) echo.HandlerFunc {
 			return c.JSON(http.StatusUnauthorized, errResponse)
 		}
 
-		user, err := m.UserRepo.GetUserByID(c.Request().Context(), userCtx.UserID)
+		user, err := m.UserRepo.GetUserByID(ctx, userCtx.UserID)
 		if err != nil {
 			errResponse.Message = "Unauthorized"
 			errResponse.Error = err.Error()
 			return c.JSON(http.StatusUnauthorized, errResponse)
 		}
 
-		ctx = context.WithValue(ctx, user, userCtx)
+		userCtx.Email = user.Email
+		userCtx.Username = user.Username
+		userCtx.UserID = user.ID
+
+		ctx = context.WithValue(ctx, UserData, userCtx)
 
 		c.SetRequest(c.Request().WithContext(ctx))
 

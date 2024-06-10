@@ -89,7 +89,7 @@ func (u *UserSvcImpl) UserLogin(ctx context.Context, req LoginReq) (resp models.
 	}
 
 	token, exp, err := utils.Sign(JWTData{
-		Email:   user.Email,
+		Email:   req.Identity,
 		UserID:  user.ID,
 		Usename: user.Username,
 	})

@@ -13,6 +13,7 @@ func setRoute(
 
 	authCtrl controller.AuthCtrl,
 	productCtrl controller.ProductCtrl,
+	cartCtrl controller.CartCtrl,
 	middleware middleware.MiddleWare,
 ) {
 	e.GET("/", func(c echo.Context) error {
@@ -33,9 +34,18 @@ func setRoute(
 		products.POST("", productCtrl.CreateProduct)
 		products.GET("/:id", productCtrl.GetProductByID)
 		products.PATCH("/:id", productCtrl.UpdateProductPrice)
-		products.DELETE("/:id", productCtrl.DeleteProduct)
 		products.GET("/category/:id", productCtrl.GetProductsByCategoryID)
 	}
 
 	base.Use(middleware.AuthUser)
+
+	cart := base.Group("/cart")
+	{
+		cart.POST("", cartCtrl.AddToCart)
+		cart.GET("", cartCtrl.GetCart)
+		cart.DELETE("", cartCtrl.DeleteAllCart)
+		cart.PATCH("/:id", cartCtrl.UpdateCartQuantity)
+		cart.DELETE("/:id", cartCtrl.DeleteCart)
+	}
+
 }

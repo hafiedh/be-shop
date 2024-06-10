@@ -9,6 +9,6 @@ const (
 	`
 
 	QueryGetUserByID = `
-		SELECT email, username, password FROM users WHERE id = $1
+		SELECT id, email, username, password FROM users WHERE id = $1
 	`
 )
