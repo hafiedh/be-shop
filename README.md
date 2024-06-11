@@ -1,5 +1,5 @@
 ## Overview
-This is the backend service for an online store application. The service is built using Java Spring Boot / Go-lang and provides RESTful APIs for handling customers, products, shopping carts, and orders.
+This is the backend service for an online store application. The service is built using Go-lang and provides RESTful APIs for handling customers, products, shopping carts, and orders.
 
 ## Features
 - Customer Registration and Login
