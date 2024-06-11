@@ -38,6 +38,11 @@ func setRoute(
 		products.GET("/category/:id", productCtrl.GetProductsByCategoryID)
 	}
 
+	categories := base.Group("/categories")
+	{
+		categories.POST("", productCtrl.CreateCategory)
+	}
+
 	base.Use(middleware.AuthUser)
 
 	cart := base.Group("/cart")

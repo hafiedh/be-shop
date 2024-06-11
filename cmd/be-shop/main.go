@@ -23,11 +23,6 @@ func main() {
 
 	utils.InitValidator()
 
-	err = infra.InitTimezone()
-	if err != nil {
-		slog.Error("Error loading timezone")
-	}
-
 	err = LoadApplicationConfig()
 	if err != nil {
 		fmt.Println("LoadApplicationConfig: ", err.Error())
@@ -109,6 +104,10 @@ func LoadApplicationRepository() error {
 	err = di.Provide(postgres.NewPaymentRepo)
 	if err != nil {
 		return fmt.Errorf("NewPaymentRepo: %s", err.Error())
+	}
+	err = di.Provide(postgres.NewCategoryRepo)
+	if err != nil {
+		return fmt.Errorf("NewCategoryRepo: %s", err.Error())
 	}
 	return nil
 }

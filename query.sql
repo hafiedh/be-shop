@@ -81,24 +81,25 @@ INSERT INTO categories (name) VALUES
 ('Toys');
 
 
-INSERT INTO products (name, category_id, price) VALUES
-('iPhone 12', 1, 10000000.00)
-('Samsung Galaxy S21', 1, 9000000.00)
-('Macbook Pro', 1, 20000000.00)
-('Dell XPS 15', 1, 15000000.00)
-('Nike Air Max', 2, 500000.00)
-('Adidas Superstar', 2, 400000.00)
-('Levi''s Jeans', 2, 300000.00)
-('H&M T-shirt', 2, 200000.00)
-('The Alchemist', 3, 100000.00)
-('Harry Potter', 3, 150000.00)
-('The Da Vinci Code', 3, 120000.00)
-('The Great Gatsby', 3, 110000.00)
-('Sofa', 4, 3000000.00)
-('Dining Table', 4, 2500000.00)
-('Bed', 4, 2000000.00)
-('Wardrobe', 4, 1500000.00)
-('Lego', 5, 1000000.00)
-('Barbie', 5, 800000.00)
-('Hot Wheels', 5, 700000.00)
+INSERT INTO products (name, category_id, price) 
+VALUES
+('iPhone 12', 1, 10000000.00),
+('Samsung Galaxy S21', 1, 9000000.00),
+('Macbook Pro', 1, 20000000.00),
+('Dell XPS 15', 1, 15000000.00),
+('Nike Air Max', 2, 500000.00),
+('Adidas Superstar', 2, 400000.00),
+('Levi''s Jeans', 2, 300000.00),
+('H&M T-shirt', 2, 200000.00),
+('The Alchemist', 3, 100000.00),
+('Harry Potter', 3, 150000.00),
+('The Da Vinci Code', 3, 120000.00),
+('The Great Gatsby', 3, 110000.00),
+('Sofa', 4, 3000000.00),
+('Dining Table', 4, 2500000.00),
+('Bed', 4, 2000000.00),
+('Wardrobe', 4, 1500000.00),
+('Lego', 5, 1000000.00),
+('Barbie', 5, 800000.00),
+('Hot Wheels', 5, 700000.00),
 ('Nerf', 5, 600000.00);

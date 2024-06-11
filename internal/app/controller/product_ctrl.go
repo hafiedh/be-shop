@@ -21,6 +21,8 @@ type (
 		GetAllProduct(ec echo.Context) error
 		UpdateProductPrice(ec echo.Context) error
 		DeleteProduct(ec echo.Context) error
+
+		CreateCategory(ec echo.Context) error
 	}
 
 	ProductCtrlImpl struct {
@@ -244,6 +246,47 @@ func (m *ProductCtrlImpl) GetProductsByCategoryID(ec echo.Context) error {
 		return ec.JSON(http.StatusInternalServerError, models.DefaultResponse{
 			Code:    resp.Code,
 			Message: "Failed to get product by category id",
+			Error:   err.(validator.ValidationErrors).Error(),
+		})
+	}
+
+	return ec.JSON(resp.Code, resp)
+}
+
+func (m *ProductCtrlImpl) CreateCategory(ec echo.Context) error {
+	Recover()
+	ctx := ec.Request().Context()
+
+	var req models.Category
+
+	if err := ec.Bind(&req); err != nil {
+		slog.Error("CreateCategory - Invalid request body", err)
+		return ec.JSON(http.StatusBadRequest, models.DefaultResponse{
+			Code:    http.StatusBadRequest,
+			Message: "Invalid request body",
+			Error:   err.Error(),
+		})
+	}
+
+	validate := utils.Validate
+
+	err := validate.Struct(req)
+	if err != nil {
+		slog.Error("CreateCategory - validation error", err)
+		errors := err.(validator.ValidationErrors)
+		return ec.JSON(http.StatusBadRequest, models.DefaultResponse{
+			Code:    http.StatusBadRequest,
+			Message: "Invalid request body",
+			Error:   errors.Error(),
+		})
+	}
+
+	resp, err := m.ProductSvc.CreateCategory(ctx, req.Name)
+	if err != nil {
+		slog.Error("CreateCategory - error while creating category", err)
+		return ec.JSON(http.StatusInternalServerError, models.DefaultResponse{
+			Code:    resp.Code,
+			Message: "Failed to create category",
 			Error:   err.(validator.ValidationErrors).Error(),
 		})
 	}

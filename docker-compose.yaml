@@ -1,0 +1,32 @@
+version: '3.9'
+
+services:
+  be-shop-db:
+    image: postgres:latest
+    restart: always
+    environment:
+      POSTGRES_DB: postgres
+      POSTGRES_USER: postgres
+      POSTGRES_PASSWORD: postgres
+    ports:
+      - "5423:5432"
+    volumes:
+      - postgres_data:/var/lib/postgresql/data
+  be-shop-api:
+    build:
+      context: .
+      dockerfile: Dockerfile
+    ports:
+      - "8090:8090"
+    env_file:
+      - .env
+    depends_on:
+      - be-shop-db
+    environment:
+      - PG_HOST=be-shop-db
+      - PG_PORT=5432
+      - PG_DBUSER=postgres
+      - PG_DBPASS=postgres
+      - PG_DBNAME=be_shop
+volumes:
+  postgres_data: {}

@@ -22,12 +22,14 @@ type (
 		GetProductByCategoryID(ctx context.Context, id int64) (resp models.DefaultResponse, err error)
 		UpdateProductPrice(ctx context.Context, id int64, req UpdatePriceReq) (resp models.DefaultResponse, err error)
 		DeleteProduct(ctx context.Context, id int64) (resp models.DefaultResponse, err error)
+		CreateCategory(ctx context.Context, name string) (resp models.DefaultResponse, err error)
 	}
 
 	ProductSvcImpl struct {
 		dig.In
 
-		ProductRepo postgres.ProductRepo
+		ProductRepo  postgres.ProductRepo
+		CategoryRepo postgres.CategoryRepo
 	}
 )
 
@@ -153,5 +155,27 @@ func (p *ProductSvcImpl) GetProductByCategoryID(ctx context.Context, id int64) (
 	resp.Message = "Product fetched successfully"
 	resp.Code = http.StatusOK
 	resp.Data = product
+	return
+}
+
+func (p *ProductSvcImpl) CreateCategory(ctx context.Context, name string) (resp models.DefaultResponse, err error) {
+	{
+		resp.Message = "Failed to create category"
+		resp.Code = http.StatusBadRequest
+	}
+
+	id, err := p.CategoryRepo.CreateCategory(ctx, name)
+	if err != nil {
+		slog.ErrorContext(ctx, "[ProductSvcImpl.CreateCategory] error while CreateCategory err", "%v", err.Error())
+		return
+	}
+
+	resp.Message = "Category created successfully"
+	resp.Code = http.StatusCreated
+	resp.Data = struct {
+		ID int `json:"id"`
+	}{
+		ID: id,
+	}
 	return
 }
