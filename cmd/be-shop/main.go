@@ -18,7 +18,7 @@ import (
 func main() {
 	err := godotenv.Load()
 	if err != nil {
-		slog.Error("Error loading .env file")
+		slog.Error("Error loading .env file", err.Error())
 	}
 
 	utils.InitValidator()

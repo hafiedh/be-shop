@@ -1,28 +1,27 @@
-# Gunakan image Golang resmi sebagai base image
 FROM golang:latest as builder
+LABEL MAINTAINER="Muhammad Hafiedh"
 
-# Set environment variable agar Go menggunakan mode production
-ENV CGO_ENABLED=0 \
-    GOOS=linux \
-    GOARCH=amd64
+WORKDIR /go/src/be-shop
+COPY . .
 
-# Buat direktori kerja di dalam container
+RUN go mod download && \
+    go mod verify
+
+
+RUN CGO_ENABLED=0 GOOS=linux go build -ldflags="-w -s" -a -installsuffix cgo -o /go/bin/be-shop ./cmd/be-shop
+
+
+FROM alpine:latest
+RUN apk update && \
+    adduser -D appuser
+
+COPY --from=builder /go/bin/be-shop /app/be-shop
+COPY --from=builder /go/src/be-shop/.env /app/.env
+
+USER appuser
+
 WORKDIR /app
 
-# Salin file go.mod dan go.sum terlebih dahulu dan lakukan download dependensi
-COPY go.mod .
-COPY go.sum .
-RUN go mod download
+EXPOSE 8090
 
-# Salin seluruh kode sumber aplikasi
-COPY . .
-COPY .env .
-
-# Build aplikasi Golang
-RUN go build -o be-shop ./cmd/be-shop
-
-# Expose port yang digunakan oleh aplikasi
-EXPOSE 8060
-
-# Atur command untuk dijalankan saat container dijalankan
-CMD ["go", "run", "cmd/be-shop/main.go"]
+ENTRYPOINT ["/app/be-shop", "-env", "/app/.env"]
